@@ -4,8 +4,7 @@
 const header = document.querySelector('.site-header');
 const isLight = header?.classList.contains('light');
 function onScroll(){
-  if(!header) return;
-  if(isLight) return;
+  if(!header || isLight) return;
   header.classList.toggle('scrolled', window.scrollY > 40);
 }
 window.addEventListener('scroll', onScroll, {passive:true});
@@ -15,6 +14,10 @@ onScroll();
 const toggle = document.querySelector('.menu-toggle');
 const links = document.querySelector('.nav-links');
 toggle?.addEventListener('click', ()=> links?.classList.toggle('open'));
+// close mobile menu on link click
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click', ()=> links?.classList.remove('open'));
+});
 
 // Reveal on scroll
 const io = new IntersectionObserver((entries)=>{
@@ -26,8 +29,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 const heroBg = document.querySelector('.hero-bg img');
 if(heroBg){
   window.addEventListener('scroll', ()=>{
-    const y = window.scrollY;
-    heroBg.style.setProperty('--parallax', `${y*0.25}px`);
+    heroBg.style.setProperty('--parallax', `${window.scrollY*0.25}px`);
   }, {passive:true});
 }
 
@@ -60,7 +62,7 @@ document.querySelectorAll('.acc-item .acc-q').forEach(q=>{
 
 // Horizontal parallax gallery
 const hScroll = document.querySelector('.h-scroll');
-if(hScroll){
+if(hScroll && window.innerWidth > 900){
   const track = hScroll.querySelector('.h-track');
   const bar = hScroll.querySelector('.h-progress .bar');
   const slides = hScroll.querySelectorAll('.h-slide img');
@@ -72,8 +74,7 @@ if(hScroll){
     const maxX = track.scrollWidth - window.innerWidth;
     track.style.transform = `translate3d(${-p*maxX}px,0,0)`;
     if(bar) bar.style.width = `${p*100}%`;
-    // subtle image parallax within each slide
-    slides.forEach((img, i)=>{
+    slides.forEach((img)=>{
       const slideRect = img.getBoundingClientRect();
       const centerDist = (slideRect.left + slideRect.width/2) - window.innerWidth/2;
       const norm = centerDist / window.innerWidth;
@@ -85,11 +86,11 @@ if(hScroll){
   updateH();
 }
 
-// Stacked cards effect (scale down as next covers)
+// Stacked cards effect
 const stackCards = document.querySelectorAll('.stack-card');
 if(stackCards.length){
   function updateStack(){
-    stackCards.forEach((card, i)=>{
+    stackCards.forEach((card)=>{
       const rect = card.getBoundingClientRect();
       const topOffset = parseInt(getComputedStyle(card).top) || 100;
       const progress = Math.max(0, Math.min(1, (topOffset - rect.top) / (window.innerHeight*0.8)));
@@ -103,9 +104,34 @@ if(stackCards.length){
   updateStack();
 }
 
-// Set active nav link
+// Sticky Full-page slides — active dot indicator
+const fpSlides = document.querySelector('.fp-slides');
+if(fpSlides){
+  const slides = fpSlides.querySelectorAll('.fp-slide');
+  const nav = document.querySelector('.fp-nav');
+  if(nav){
+    nav.innerHTML = '';
+    slides.forEach((s,i)=>{
+      const b = document.createElement('button');
+      b.setAttribute('aria-label', `Slide ${i+1}`);
+      b.addEventListener('click', ()=> s.scrollIntoView({behavior:'smooth'}));
+      nav.appendChild(b);
+    });
+    const dots = nav.querySelectorAll('button');
+    const slideIO = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const idx = [...slides].indexOf(e.target);
+          dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+        }
+      });
+    },{root:fpSlides, threshold:0.5});
+    slides.forEach(s=> slideIO.observe(s));
+  }
+}
+
+// Active nav link
 const path = location.pathname.split('/').pop() || 'index.html';
 document.querySelectorAll('.nav-links a').forEach(a=>{
-  const href = a.getAttribute('href');
-  if(href === path) a.style.color = 'var(--gold)';
+  if(a.getAttribute('href') === path) a.style.color = 'var(--gold)';
 });
