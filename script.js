@@ -158,13 +158,15 @@ function initInteractions() {
     q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
   });
 
-  // Horizontal parallax gallery
+  // Horizontal parallax gallery — desktop uses scroll-hijack, mobile uses native swipe
   const hScroll = document.querySelector('.h-scroll');
-  if (hScroll && window.innerWidth > 900) {
+  if (hScroll) {
     const track = hScroll.querySelector('.h-track');
     const bar = hScroll.querySelector('.h-progress .bar');
     const slides = hScroll.querySelectorAll('.h-slide img');
+    const isDesktop = () => window.innerWidth > 900;
     function updateH() {
+      if (!isDesktop()) { track.style.transform = ''; slides.forEach(i => i.style.transform = ''); return; }
       const rect = hScroll.getBoundingClientRect();
       const total = hScroll.offsetHeight - window.innerHeight;
       const scrolled = Math.min(Math.max(-rect.top, 0), total);
@@ -184,48 +186,61 @@ function initInteractions() {
     updateH();
   }
 
-  // Stacked cards effect
+  // Stacked cards effect — only on desktop where cards are actually sticky
   const stackCards = document.querySelectorAll('.stack-card');
   if (stackCards.length) {
     function updateStack() {
+      const mobile = window.innerWidth <= 900;
       stackCards.forEach((card) => {
+        if (mobile) { card.style.transform = ''; card.style.opacity = ''; return; }
         const rect = card.getBoundingClientRect();
         const topOffset = parseInt(getComputedStyle(card).top) || 100;
         const progress = Math.max(0, Math.min(1, (topOffset - rect.top) / (window.innerHeight * 0.8)));
-        const scale = 1 - progress * 0.08;
-        const opacity = 1 - progress * 0.3;
-        card.style.transform = `scale(${scale})`;
-        card.style.opacity = opacity;
+        card.style.transform = `scale(${1 - progress * 0.08})`;
+        card.style.opacity = 1 - progress * 0.3;
       });
     }
     window.addEventListener('scroll', updateStack, { passive: true });
+    window.addEventListener('resize', updateStack);
     updateStack();
   }
 
-  // Sticky full-page slides — active dot indicator
+  // Experience page — enable scroll-snap on root + drive slide reveal + dots at viewport level
+  if (document.body.dataset.page === 'experience') {
+    // enable proximity snap only if the user isn't reducing motion
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('snap-page');
+    }
+  }
+
+  // Sticky full-page slides — reveal + active dot indicator (viewport root)
   const fpSlides = document.querySelector('.fp-slides');
   if (fpSlides) {
     const slides = fpSlides.querySelectorAll('.fp-slide');
     const nav = document.querySelector('.fp-nav');
+    let dots = [];
     if (nav) {
       nav.innerHTML = '';
       slides.forEach((s, i) => {
         const b = document.createElement('button');
         b.setAttribute('aria-label', `Slide ${i + 1}`);
-        b.addEventListener('click', () => s.scrollIntoView({ behavior: 'smooth' }));
+        b.addEventListener('click', () => s.scrollIntoView({ behavior: 'smooth', block: 'start' }));
         nav.appendChild(b);
       });
-      const dots = nav.querySelectorAll('button');
-      const slideIO = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
+      dots = [...nav.querySelectorAll('button')];
+    }
+    const slideIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view');
+          if (dots.length) {
             const idx = [...slides].indexOf(e.target);
             dots.forEach((d, i) => d.classList.toggle('active', i === idx));
           }
-        });
-      }, { root: fpSlides, threshold: 0.5 });
-      slides.forEach(s => slideIO.observe(s));
-    }
+        }
+      });
+    }, { threshold: 0.4 });
+    slides.forEach(s => slideIO.observe(s));
   }
 }
 
