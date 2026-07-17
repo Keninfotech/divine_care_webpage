@@ -196,6 +196,44 @@ function initInteractions() {
     slides.forEach(s => slideIO.observe(s));
   }
 
+  // Admissions page — GSAP ScrollTrigger stacked cards (pins each card, then
+  // gently scales it down as the next one arrives). Skipped on mobile,
+  // reduced-motion, and low-end devices, where the cards just stack normally.
+  function initAdmissionsCards() {
+    if (document.body.dataset.page !== 'admissions') return;
+    const cards = document.querySelectorAll('.c-card');
+    if (!cards.length) return;
+    if (REDUCE_FX || window.innerWidth <= 900) return;
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    const headerOffset = document.querySelector('.site-header')?.offsetHeight || 0;
+    const cardsArr = gsap.utils.toArray(cards);
+    const lastCardIndex = cardsArr.length - 1;
+
+    const lastCardST = ScrollTrigger.create({
+      trigger: cardsArr[lastCardIndex],
+      start: 'center center',
+    });
+
+    cardsArr.forEach((card, index) => {
+      const scale = index === lastCardIndex ? 1 : 0.92;
+      const scaleDown = gsap.to(card, { scale, ease: 'none' });
+      ScrollTrigger.create({
+        trigger: card,
+        start: `top top+=${headerOffset}`,
+        end: () => lastCardST.start,
+        pin: true,
+        pinSpacing: false,
+        scrub: 0.5,
+        ease: 'none',
+        animation: scaleDown,
+        toggleActions: 'restart none none reverse',
+      });
+    });
+  }
+  initAdmissionsCards();
+
   // ---------------------------------------------------------------------
   // Scroll-position-driven effects, batched into a single rAF tick so low
   // powered devices do one read/write pass per frame instead of several.

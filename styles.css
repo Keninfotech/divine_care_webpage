@@ -496,22 +496,70 @@ form.enquiry button{align-self:flex-start}
   contain-intrinsic-size:1px 420px;
 }
 
-/* ---------- Admissions: extra scroll animation ---------- */
+/* ---------- Admissions: reading progress + GSAP stacked cards ---------- */
 .adm-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;pointer-events:none;background:rgba(74,90,30,.08)}
 .adm-progress .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-2));transition:width .1s linear}
 
-.reveal.step-num{
-  transform:scale(.4) rotate(-12deg);
-  transition:transform .8s cubic-bezier(.22,1.6,.36,1),opacity .5s;
+.admissions-cards{overflow:visible}
+.l-cards{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+  padding-inline:var(--gutter);
 }
-.reveal.step-num.in{transform:scale(1) rotate(0)}
+.c-card{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:var(--sp-6);
+  margin-top:var(--sp-5);
+  width:100%;
+  height:min(78vh,640px);
+  min-height:440px;
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 40px 80px -30px rgba(51,64,26,.25);
+  transform-origin:center top;
+  will-change:transform;
+}
+.c-card__description{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(28px,4vw,56px);
+  order:1;
+}
+.c-card__tagline{font-size:12px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.c-card__title{
+  font-family:var(--font-display);font-weight:500;
+  font-size:clamp(1.6rem,3vw,2.4rem);color:var(--navy);
+  margin:14px 0 16px;line-height:1.1;
+}
+.c-card__excerpt{color:var(--muted);font-size:clamp(14px,0.95vw,16px);line-height:1.7}
+.c-card__cta{display:flex;align-items:center;gap:16px;margin-top:var(--sp-5)}
+.c-card__cta a{
+  width:max-content;padding:12px 26px;border-radius:999px;
+  border:1px solid var(--navy);color:var(--navy);font-size:13px;
+  letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+  transition:background .3s,color .3s;
+}
+.c-card__cta a:hover{background:var(--navy);color:#fff}
+.c-card__figure{position:relative;overflow:hidden;background:#000;order:2}
+.c-card__figure img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.c-card:nth-child(even) .c-card__description{order:2}
+.c-card:nth-child(even) .c-card__figure{order:1}
 
-.reveal.clip-reveal{
-  opacity:1;transform:none;
-  clip-path:inset(0 0 100% 0);
-  transition:clip-path 1.1s cubic-bezier(.22,.61,.36,1);
+.cards-spacer{width:100%;height:30vh}
+
+@media (max-width:900px){
+  .c-card{
+    grid-template-columns:1fr;
+    height:auto;min-height:auto;
+    transform:none!important;
+  }
+  .c-card__description,.c-card:nth-child(even) .c-card__description{order:2}
+  .c-card__figure,.c-card:nth-child(even) .c-card__figure{order:1;aspect-ratio:4/3}
+  .cards-spacer{display:none}
 }
-.reveal.clip-reveal.in{clip-path:inset(0 0 0% 0)}
 
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
