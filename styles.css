@@ -233,7 +233,7 @@ p{font-size:clamp(0.95rem, 0.4vw + 0.8rem, 1.1rem)}
 
 /* ---------- Sections ---------- */
 section{position:relative}
-.section{padding:var(--sp-8) 0}
+.section{padding:var(--sp-8) 0;background:var(--white)}
 .section.cream{background:var(--cream)}
 .section.navy{background:var(--navy);color:var(--white)}
 .section.navy h2,.section.navy h3{color:#fff}
