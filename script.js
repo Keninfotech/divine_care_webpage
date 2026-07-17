@@ -64,7 +64,7 @@ function renderFooter() {
           <span class="logo-badge"><img src="logo.png" alt="Divine Care Homes" loading="lazy" decoding="async" /></span>
           <span class="brand-text">Divine Care Homes<small>Centenary House Nursing Home</small></span>
         </a>
-        <p style="max-width:280px;margin-top:16px">Compassionate residential, nursing and specialist care in Scotland from Centenary House Nursing Home and Strathyre House.</p>
+        <p style="max-width:280px;margin-top:6px">Compassionate residential, nursing and specialist care in Scotland from Centenary House Nursing Home and Strathyre House.</p>
       </div>
       <div>
         <h4>Explore</h4>
