@@ -119,6 +119,7 @@ p{font-size:clamp(0.95rem, 0.4vw + 0.8rem, 1.1rem)}
   flex-shrink:0;
 }
 .footer-brand .logo-badge img{height:clamp(30px,3vw,42px);width:auto;display:block}
+.footer-brand{display:inline-flex;align-items:center;gap:1rem}
 .footer-brand .brand-text{color:#fff}
 .site-header.scrolled .brand,.site-header.light .brand{color:var(--navy)}
 
