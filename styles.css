@@ -312,7 +312,7 @@ section{position:relative}
 /* ================================================================
    HORIZONTAL PARALLAX GALLERY
    ================================================================ */
-.h-gallery{position:relative;background:var(--cream)}
+.h-gallery{position:relative;background:var(--white)}
 .h-gallery-intro{padding:var(--sp-8) 0 var(--sp-5);text-align:center}
 .h-gallery-intro h2{color:var(--navy);max-width:36ch;margin:var(--sp-4) auto var(--sp-3)}
 .h-gallery-intro p{color:var(--muted);max-width:52ch;margin:0 auto}
