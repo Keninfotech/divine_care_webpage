@@ -41,13 +41,12 @@ function renderHeader() {
 <header class="${cls}">
   <div class="container nav">
     <a href="index.html" class="brand">
-      <img src="logo.png" alt="Divine Care" decoding="async" />
-      <span class="brand-text">Divine Care<small>Centenary House<br/>Nursing Home</small></span>
+      <img src="logo.png" alt="Divine Care Homes" decoding="async" />
+      <span class="brand-text">Divine Care Homes<small>Centenary House Nursing Home</small></span>
     </a>
     <ul class="nav-links">
       ${NAV_LINKS.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}
     </ul>
-    <a class="btn" href="contact.html">Book a visit</a>
     <button class="menu-toggle" aria-label="Menu">☰</button>
   </div>
 </header>`;
@@ -62,8 +61,8 @@ function renderFooter() {
     <div class="footer-grid">
       <div>
         <a href="index.html" class="brand footer-brand" style="margin-bottom:20px">
-          <span class="logo-badge"><img src="logo.png" alt="Divine Care" loading="lazy" decoding="async" /></span>
-          <span class="brand-text">Divine Care<small>Centenary House<br/>Nursing Home</small></span>
+          <span class="logo-badge"><img src="logo.png" alt="Divine Care Homes" loading="lazy" decoding="async" /></span>
+          <span class="brand-text">Divine Care Homes<small>Centenary House Nursing Home</small></span>
         </a>
         <p style="max-width:280px;margin-top:16px">Compassionate residential, nursing and specialist care in Scotland from Centenary House Nursing Home and Strathyre House.</p>
       </div>
