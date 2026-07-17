@@ -60,7 +60,7 @@ function renderFooter() {
   <div class="container">
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="brand footer-brand" style="margin-bottom:20px">
+        <a href="index.html" class="brand footer-brand">
           <span class="logo-badge"><img src="logo.png" alt="Divine Care Homes" loading="lazy" decoding="async" /></span>
           <span class="brand-text">Divine Care Homes<small>Centenary House Nursing Home</small></span>
         </a>
