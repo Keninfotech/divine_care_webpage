@@ -2,6 +2,12 @@
 // -----------------------------------------------------------------------------
 // Header + footer are injected here so we only maintain them in one place.
 // Every HTML page just needs <div id="site-header"></div> and <div id="site-footer"></div>.
+//
+// Performance note: all scroll-position-driven effects (header state, hero
+// parallax, horizontal gallery, sticky-card scaling, admissions progress bar)
+// are batched into a single requestAnimationFrame tick per scroll event
+// instead of each having its own listener. On low-end devices we also skip
+// the purely decorative transforms entirely.
 // -----------------------------------------------------------------------------
 
 const NAV_LINKS = [
@@ -18,6 +24,14 @@ const NAV_LINKS = [
   ['contact.html', 'Contact'],
 ];
 
+// Low-end / constrained-device detection, used to skip decorative
+// scroll-linked transforms (parallax, sticky-card scaling, drag galleries).
+const REDUCED_MOTION = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const LOW_MEMORY = 'deviceMemory' in navigator && navigator.deviceMemory <= 4;
+const LOW_CPU = 'hardwareConcurrency' in navigator && navigator.hardwareConcurrency <= 4;
+const SAVE_DATA = !!(navigator.connection && (navigator.connection.saveData || /2g/.test(navigator.connection.effectiveType || '')));
+const REDUCE_FX = REDUCED_MOTION || LOW_MEMORY || LOW_CPU || SAVE_DATA;
+
 function renderHeader() {
   const host = document.getElementById('site-header');
   if (!host) return;
@@ -27,8 +41,8 @@ function renderHeader() {
 <header class="${cls}">
   <div class="container nav">
     <a href="index.html" class="brand">
-      <img src="logo.png" alt="Divine Care Homes Scotland" />
-      <span class="brand-text">Divine Care<small>Homes Scotland</small></span>
+      <img src="logo.png" alt="Divine Care" decoding="async" />
+      <span class="brand-text">Divine Care<small>Centenary House<br/>Nursing Home</small></span>
     </a>
     <ul class="nav-links">
       ${NAV_LINKS.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}
@@ -47,11 +61,11 @@ function renderFooter() {
   <div class="container">
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="brand" style="color:#fff;margin-bottom:20px">
-          <img src="logo.png" alt="Divine Care Homes Scotland" style="filter:brightness(0) invert(1)" />
-          <span class="brand-text">Divine Care<small>Homes Scotland</small></span>
+        <a href="index.html" class="brand footer-brand" style="margin-bottom:20px">
+          <span class="logo-badge"><img src="logo.png" alt="Divine Care" loading="lazy" decoding="async" /></span>
+          <span class="brand-text">Divine Care<small>Centenary House<br/>Nursing Home</small></span>
         </a>
-        <p style="max-width:280px;margin-top:16px">Compassionate residential, nursing and specialist care across Scotland. Centenary House Nursing Home &amp; sister homes.</p>
+        <p style="max-width:280px;margin-top:16px">Compassionate residential, nursing and specialist care in Scotland from Centenary House Nursing Home and Strathyre House.</p>
       </div>
       <div>
         <h4>Explore</h4>
@@ -77,12 +91,12 @@ function renderFooter() {
         <ul>
           <li>0000 000 0000</li>
           <li>enquiries@divinecarehomes.co.uk</li>
-          <li>Centenary House Nursing Home,<br/>Scotland</li>
+          <li>16 Strathyre Gardens,<br/>East Kilbride, Glasgow,<br/>Scotland, G75 8GP</li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© ${new Date().getFullYear()} Divine Care Homes Scotland Ltd.</span>
+      <span>© ${new Date().getFullYear()} Divine Care Ltd.</span>
       <span>Privacy · Cookies · Modern Slavery</span>
     </div>
   </div>
@@ -93,15 +107,8 @@ function renderFooter() {
 // Everything below runs AFTER the header/footer are in the DOM
 // -----------------------------------------------------------------------------
 function initInteractions() {
-  // Header scroll state
   const header = document.querySelector('.site-header');
   const isLight = header?.classList.contains('light');
-  function onScroll() {
-    if (!header || isLight) return;
-    header.classList.toggle('scrolled', window.scrollY > 40);
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
 
   // Mobile menu
   const toggle = document.querySelector('.menu-toggle');
@@ -117,21 +124,13 @@ function initInteractions() {
     if (a.getAttribute('href') === path) a.style.color = 'var(--gold-2)';
   });
 
-  // Reveal on scroll
+  // Reveal on scroll — IntersectionObserver only, no scroll listener needed
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // Hero parallax
-  const heroBg = document.querySelector('.hero-bg img');
-  if (heroBg) {
-    window.addEventListener('scroll', () => {
-      heroBg.style.setProperty('--parallax', `${window.scrollY * 0.25}px`);
-    }, { passive: true });
-  }
-
-  // Stat counters
+  // Stat counters (skip the count-up animation on low-end/reduced-motion, jump to the final value)
   const stats = document.querySelectorAll('.stat .num[data-target]');
   const statIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -139,6 +138,11 @@ function initInteractions() {
       const el = e.target;
       const target = parseFloat(el.dataset.target);
       const suffix = el.dataset.suffix || '';
+      statIO.unobserve(el);
+      if (REDUCE_FX) {
+        el.textContent = (target % 1 ? target.toFixed(1) : Math.round(target).toLocaleString()) + suffix;
+        return;
+      }
       const dur = 1800; const start = performance.now();
       function tick(t) {
         const p = Math.min(1, (t - start) / dur);
@@ -148,7 +152,6 @@ function initInteractions() {
         if (p < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
-      statIO.unobserve(el);
     });
   }, { threshold: 0.4 });
   stats.forEach(s => statIO.observe(s));
@@ -158,62 +161,12 @@ function initInteractions() {
     q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
   });
 
-  // Horizontal parallax gallery — desktop uses scroll-hijack, mobile uses native swipe
-  const hScroll = document.querySelector('.h-scroll');
-  if (hScroll) {
-    const track = hScroll.querySelector('.h-track');
-    const bar = hScroll.querySelector('.h-progress .bar');
-    const slides = hScroll.querySelectorAll('.h-slide img');
-    const isDesktop = () => window.innerWidth > 900;
-    function updateH() {
-      if (!isDesktop()) { track.style.transform = ''; slides.forEach(i => i.style.transform = ''); return; }
-      const rect = hScroll.getBoundingClientRect();
-      const total = hScroll.offsetHeight - window.innerHeight;
-      const scrolled = Math.min(Math.max(-rect.top, 0), total);
-      const p = total > 0 ? scrolled / total : 0;
-      const maxX = track.scrollWidth - window.innerWidth;
-      track.style.transform = `translate3d(${-p * maxX}px,0,0)`;
-      if (bar) bar.style.width = `${p * 100}%`;
-      slides.forEach((img) => {
-        const slideRect = img.getBoundingClientRect();
-        const centerDist = (slideRect.left + slideRect.width / 2) - window.innerWidth / 2;
-        const norm = centerDist / window.innerWidth;
-        img.style.transform = `translate3d(${-norm * 40}px,0,0) scale(1.15)`;
-      });
-    }
-    window.addEventListener('scroll', updateH, { passive: true });
-    window.addEventListener('resize', updateH);
-    updateH();
+  // Experience page — enable scroll-snap on root (skipped for reduced motion)
+  if (document.body.dataset.page === 'experience' && !REDUCED_MOTION) {
+    document.documentElement.classList.add('snap-page');
   }
 
-  // Stacked cards effect — only on desktop where cards are actually sticky
-  const stackCards = document.querySelectorAll('.stack-card');
-  if (stackCards.length) {
-    function updateStack() {
-      const mobile = window.innerWidth <= 900;
-      stackCards.forEach((card) => {
-        if (mobile) { card.style.transform = ''; card.style.opacity = ''; return; }
-        const rect = card.getBoundingClientRect();
-        const topOffset = parseInt(getComputedStyle(card).top) || 100;
-        const progress = Math.max(0, Math.min(1, (topOffset - rect.top) / (window.innerHeight * 0.8)));
-        card.style.transform = `scale(${1 - progress * 0.08})`;
-        card.style.opacity = 1 - progress * 0.3;
-      });
-    }
-    window.addEventListener('scroll', updateStack, { passive: true });
-    window.addEventListener('resize', updateStack);
-    updateStack();
-  }
-
-  // Experience page — enable scroll-snap on root + drive slide reveal + dots at viewport level
-  if (document.body.dataset.page === 'experience') {
-    // enable proximity snap only if the user isn't reducing motion
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.documentElement.classList.add('snap-page');
-    }
-  }
-
-  // Sticky full-page slides — reveal + active dot indicator (viewport root)
+  // Sticky full-page slides — reveal + active dot indicator
   const fpSlides = document.querySelector('.fp-slides');
   if (fpSlides) {
     const slides = fpSlides.querySelectorAll('.fp-slide');
@@ -242,6 +195,89 @@ function initInteractions() {
     }, { threshold: 0.4 });
     slides.forEach(s => slideIO.observe(s));
   }
+
+  // ---------------------------------------------------------------------
+  // Scroll-position-driven effects, batched into a single rAF tick so low
+  // powered devices do one read/write pass per frame instead of several.
+  // ---------------------------------------------------------------------
+  const heroBg = document.querySelector('.hero-bg img');
+  const hScroll = document.querySelector('.h-scroll');
+  const hTrack = hScroll?.querySelector('.h-track');
+  const hBar = hScroll?.querySelector('.h-progress .bar');
+  const hSlideImgs = hScroll ? hScroll.querySelectorAll('.h-slide img') : [];
+  const stackCards = document.querySelectorAll('.stack-card');
+  const admTrack = document.querySelector('.adm-track');
+  const admBar = document.querySelector('.adm-progress .bar');
+  const isDesktopWide = () => window.innerWidth > 900;
+
+  function updateHeader() {
+    if (!header || isLight) return;
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  }
+
+  function updateHeroParallax() {
+    if (!heroBg || REDUCE_FX) return;
+    heroBg.style.setProperty('--parallax', `${window.scrollY * 0.25}px`);
+  }
+
+  function updateHGallery() {
+    if (!hScroll || !hTrack) return;
+    if (!isDesktopWide() || REDUCE_FX) { hTrack.style.transform = ''; hSlideImgs.forEach(i => i.style.transform = ''); return; }
+    const rect = hScroll.getBoundingClientRect();
+    const total = hScroll.offsetHeight - window.innerHeight;
+    const scrolled = Math.min(Math.max(-rect.top, 0), total);
+    const p = total > 0 ? scrolled / total : 0;
+    const maxX = hTrack.scrollWidth - window.innerWidth;
+    hTrack.style.transform = `translate3d(${-p * maxX}px,0,0)`;
+    if (hBar) hBar.style.width = `${p * 100}%`;
+    hSlideImgs.forEach((img) => {
+      const slideRect = img.getBoundingClientRect();
+      const centerDist = (slideRect.left + slideRect.width / 2) - window.innerWidth / 2;
+      const norm = centerDist / window.innerWidth;
+      img.style.transform = `translate3d(${-norm * 40}px,0,0) scale(1.15)`;
+    });
+  }
+
+  function updateStackCards() {
+    if (!stackCards.length) return;
+    const mobile = !isDesktopWide();
+    stackCards.forEach((card) => {
+      if (mobile || REDUCE_FX) { card.style.transform = ''; card.style.opacity = ''; return; }
+      const rect = card.getBoundingClientRect();
+      const topOffset = parseInt(getComputedStyle(card).top) || 100;
+      const progress = Math.max(0, Math.min(1, (topOffset - rect.top) / (window.innerHeight * 0.8)));
+      card.style.transform = `scale(${1 - progress * 0.08})`;
+      card.style.opacity = 1 - progress * 0.3;
+    });
+  }
+
+  // Admissions page — thin reading-progress bar under the header that fills
+  // as visitors scroll through the five-stage journey.
+  function updateAdmissionsProgress() {
+    if (!admTrack || !admBar) return;
+    const rect = admTrack.getBoundingClientRect();
+    const total = admTrack.offsetHeight - window.innerHeight;
+    const scrolled = Math.min(Math.max(-rect.top, 0), Math.max(total, 1));
+    const p = total > 0 ? scrolled / total : 0;
+    admBar.style.width = `${Math.max(0, Math.min(1, p)) * 100}%`;
+  }
+
+  let ticking = false;
+  function onScrollFrame() {
+    updateHeader();
+    updateHeroParallax();
+    updateHGallery();
+    updateStackCards();
+    updateAdmissionsProgress();
+    ticking = false;
+  }
+  function requestTick() {
+    if (!ticking) { ticking = true; requestAnimationFrame(onScrollFrame); }
+  }
+
+  window.addEventListener('scroll', requestTick, { passive: true });
+  window.addEventListener('resize', requestTick);
+  onScrollFrame();
 }
 
 function boot() {

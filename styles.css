@@ -105,13 +105,21 @@ p{font-size:clamp(0.95rem, 0.4vw + 0.8rem, 1.1rem)}
   flex-shrink:0;line-height:1;
 }
 .brand img{
-  height:clamp(38px, 3.4vw, 54px);width:auto;
-  filter:brightness(0) invert(1);
+  height:clamp(42px, 3.6vw, 60px);width:auto;
   transition:filter .35s ease;
 }
 .site-header.scrolled .brand img,.site-header.light .brand img{filter:none}
 .brand-text{white-space:nowrap}
-.brand-text small{display:block;font-size:.55em;letter-spacing:.24em;opacity:.75;margin-top:3px;font-weight:400}
+.brand-text small{display:block;font-size:.5em;letter-spacing:.18em;opacity:.75;margin-top:4px;font-weight:400;line-height:1.45}
+.footer-brand .logo-badge{
+  display:inline-flex;align-items:center;
+  background:var(--cream);
+  padding:clamp(8px,1vw,12px) clamp(14px,1.6vw,20px);
+  border-radius:10px;
+  flex-shrink:0;
+}
+.footer-brand .logo-badge img{height:clamp(30px,3vw,42px);width:auto;display:block}
+.footer-brand .brand-text{color:#fff}
 .site-header.scrolled .brand,.site-header.light .brand{color:var(--navy)}
 
 .nav-links{
@@ -166,35 +174,54 @@ p{font-size:clamp(0.95rem, 0.4vw + 0.8rem, 1.1rem)}
 /* ---------- Hero ---------- */
 .hero{
   position:relative;min-height:100svh;
-  display:flex;align-items:flex-end;
+  display:flex;align-items:center;justify-content:center;
   color:var(--white);overflow:hidden;
-  padding:0 0 var(--sp-7);
+  padding:clamp(96px,14vh,140px) var(--gutter) var(--sp-7);
+  text-align:center;
 }
 .hero-bg{position:absolute;inset:0;z-index:-2;overflow:hidden}
 .hero-bg img{width:100%;height:120%;object-fit:cover;transform:translateY(var(--parallax,0px))}
 .hero-bg::after{
   content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(51,64,26,.35) 0%,rgba(51,64,26,.65) 60%,rgba(51,64,26,.85) 100%);
+  background:linear-gradient(180deg,rgba(51,64,26,.55) 0%,rgba(51,64,26,.7) 60%,rgba(51,64,26,.9) 100%);
 }
-.hero-inner{position:relative;z-index:1;max-width:min(900px,92%)}
+.hero-inner{position:relative;z-index:1;max-width:min(900px,100%);margin-inline:auto;display:flex;flex-direction:column;align-items:center}
 .hero h1{margin:var(--sp-4) 0 var(--sp-5);color:#fff}
-.hero p{max-width:56ch;color:rgba(255,255,255,.82)}
-.hero-actions{margin-top:var(--sp-6);display:flex;gap:14px;flex-wrap:wrap}
+.hero p{max-width:56ch;color:rgba(255,255,255,.9);margin-inline:auto}
+.hero-actions{margin-top:var(--sp-6);display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+/* Hero "whisper" eyebrow — brighter + larger so it reads over the image */
+.hero .eyebrow{
+  font-size:clamp(13px,1vw,16px);
+  color:#f0d78c;letter-spacing:.32em;font-weight:600;
+  text-shadow:0 1px 2px rgba(0,0,0,.35);
+}
+.hero .eyebrow::before{background:#f0d78c;width:clamp(36px,4vw,56px)}
+/* Hide numeric tags on stacked cards — user requested no numbers */
+.stack-card .num-tag{display:none}
+/* Two-up card grid for the Homes page */
+.card-grid.two{grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));max-width:min(920px,100%);margin-inline:auto}
 
 .page-hero{
-  padding:clamp(120px, 14vw, 200px) 0 var(--sp-7);
+  min-height:100svh;
+  display:flex;align-items:center;
+  padding:clamp(88px,13vh,130px) 0 var(--sp-6);
   background:var(--cream);position:relative;overflow:hidden;
 }
+.page-hero .container{width:100%}
 .page-hero .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr));
   gap:var(--sp-6);
-  align-items:end;
+  align-items:center;
 }
 .page-hero h1{color:var(--navy);margin:var(--sp-4) 0 var(--sp-4)}
 .page-hero p{color:var(--muted);max-width:52ch}
-.page-hero .hero-img{aspect-ratio:4/5;overflow:hidden;border-radius:var(--radius)}
+.page-hero .hero-img{aspect-ratio:4/5;max-height:min(56svh,480px);overflow:hidden;border-radius:var(--radius)}
 .page-hero .hero-img img{width:100%;height:100%;object-fit:cover}
+@media (max-width:640px){
+  .page-hero .hero-img{max-height:30vh}
+  .page-hero h1{font-size:clamp(1.9rem,7.5vw,2.6rem)}
+}
 
 /* ---------- Sections ---------- */
 section{position:relative}
@@ -457,6 +484,32 @@ form.enquiry button{align-self:flex-start}
 .acc-item.open .acc-a{max-height:600px;padding-bottom:var(--sp-4)}
 .acc-item.open .acc-q .plus{transform:rotate(45deg)}
 .plus{display:inline-block;transition:transform .4s;color:var(--gold);font-size:24px;flex-shrink:0}
+
+/* ---------- Performance (low-end devices) ----------
+   Lets the browser skip layout/paint work for content that is off-screen,
+   which matters most on low-end CPUs. Skipped on sticky elements, since
+   content-visibility can interfere with sticky positioning. */
+.card,.h-slide,.acc-item{
+  content-visibility:auto;
+  contain-intrinsic-size:1px 420px;
+}
+
+/* ---------- Admissions: extra scroll animation ---------- */
+.adm-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;pointer-events:none;background:rgba(74,90,30,.08)}
+.adm-progress .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-2));transition:width .1s linear}
+
+.reveal.step-num{
+  transform:scale(.4) rotate(-12deg);
+  transition:transform .8s cubic-bezier(.22,1.6,.36,1),opacity .5s;
+}
+.reveal.step-num.in{transform:scale(1) rotate(0)}
+
+.reveal.clip-reveal{
+  opacity:1;transform:none;
+  clip-path:inset(0 0 100% 0);
+  transition:clip-path 1.1s cubic-bezier(.22,.61,.36,1);
+}
+.reveal.clip-reveal.in{clip-path:inset(0 0 0% 0)}
 
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
