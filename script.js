@@ -26,9 +26,12 @@ const NAV_LINKS = [
 
 // Low-end / constrained-device detection, used to skip decorative
 // scroll-linked transforms (parallax, sticky-card scaling, drag galleries).
+// Only skip decorative effects on truly low-end devices (≤2GB RAM or ≤2 cores).
+// The previous threshold of ≤4 was too broad and disabled animations on most
+// budget / older laptops, which typically report 4 cores and 4 GB.
 const REDUCED_MOTION = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const LOW_MEMORY = 'deviceMemory' in navigator && navigator.deviceMemory <= 4;
-const LOW_CPU = 'hardwareConcurrency' in navigator && navigator.hardwareConcurrency <= 4;
+const LOW_MEMORY = 'deviceMemory' in navigator && navigator.deviceMemory <= 2;
+const LOW_CPU = 'hardwareConcurrency' in navigator && navigator.hardwareConcurrency <= 2;
 const SAVE_DATA = !!(navigator.connection && (navigator.connection.saveData || /2g/.test(navigator.connection.effectiveType || '')));
 const REDUCE_FX = REDUCED_MOTION || LOW_MEMORY || LOW_CPU || SAVE_DATA;
 

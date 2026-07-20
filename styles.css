@@ -63,11 +63,34 @@ h3.display{font-size:clamp(1.35rem, 2.2vw, 2.15rem)}
 p{font-size:clamp(0.95rem, 0.4vw + 0.8rem, 1.1rem)}
 .eyebrow{
   display:inline-flex;align-items:center;gap:12px;
-  font-size:clamp(10px, 0.6vw, 12px);
+  font-size:clamp(12px, 0.75vw, 14px);
   letter-spacing:.28em;text-transform:uppercase;
-  color:var(--gold);font-weight:500;
+  color:var(--navy);font-weight:600;
 }
-.eyebrow::before{content:"";width:clamp(24px,3vw,40px);height:1px;background:var(--gold)}
+.eyebrow::before{content:"";width:clamp(24px,3vw,40px);height:1px;background:var(--navy)}
+
+/* Eyebrows on dark backgrounds (navy backgrounds, overlays, footer, stacked sections) */
+.hero .eyebrow,
+.css-parallax .eyebrow,
+.stacked .eyebrow,
+.stacked-item .eyebrow,
+.fp-slide .eyebrow,
+.cta .eyebrow,
+.section.navy .eyebrow,
+footer .eyebrow {
+  color: #f0d78c !important;
+}
+.hero .eyebrow::before,
+.css-parallax .eyebrow::before,
+.stacked .eyebrow::before,
+.stacked-item .eyebrow::before,
+.fp-slide .eyebrow::before,
+.cta .eyebrow::before,
+.section.navy .eyebrow::before,
+footer .eyebrow::before {
+  background: #f0d78c !important;
+}
+
 .gold{color:var(--gold)}
 .muted{color:var(--muted)}
 
