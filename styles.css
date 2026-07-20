@@ -67,7 +67,7 @@ p{font-size:clamp(0.95rem, 0.4vw + 0.8rem, 1.1rem)}
   letter-spacing:.28em;text-transform:uppercase;
   color:var(--navy);font-weight:600;
 }
-.eyebrow::before{content:"";width:clamp(24px,3vw,40px);height:1px;background:var(--navy)}
+.eyebrow::before{content:"";width:clamp(16px,2vw,24px);height:1px;background:var(--navy)}
 
 /* Eyebrows on dark backgrounds (navy backgrounds, overlays, footer, stacked sections) */
 .hero .eyebrow,
@@ -224,7 +224,7 @@ footer .eyebrow::before {
   color:#f0d78c;letter-spacing:.32em;font-weight:600;
   text-shadow:0 1px 2px rgba(0,0,0,.35);
 }
-.hero .eyebrow::before{background:#f0d78c;width:clamp(36px,4vw,56px)}
+.hero .eyebrow::before{background:#f0d78c;width:clamp(24px,3vw,32px)}
 /* Hide numeric tags on stacked cards — user requested no numbers */
 .stack-card .num-tag{display:none}
 /* Two-up card grid for the Homes page */
