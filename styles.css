@@ -284,7 +284,7 @@ section{position:relative}
 /* ================================================================
    11. STICKY PARALLAX SECTIONS  (existing, tuned)
    ================================================================ */
-.stacked{background:var(--navy);color:#fff;position:relative}
+.stacked{background:linear-gradient(135deg, var(--navy) 0%, var(--ink) 100%);color:#fff;position:relative}
 .stacked-intro{padding:var(--sp-8) 0 var(--sp-5);text-align:center}
 .stacked-intro h2{color:#fff;max-width:36ch;margin:var(--sp-4) auto var(--sp-3)}
 .stacked-intro p{color:rgba(255,255,255,.7);max-width:52ch;margin:0 auto}
@@ -294,7 +294,7 @@ section{position:relative}
   gap:var(--sp-6);
   align-items:center;
   padding:0 var(--gutter);
-  background:var(--navy);
+  background:linear-gradient(135deg, var(--navy) 0%, var(--ink) 100%);
   border-top:1px solid rgba(255,255,255,.06);
 }
 .stacked-item .s-img{position:relative;height:75vh;overflow:hidden;border-radius:var(--radius)}
