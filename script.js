@@ -168,30 +168,14 @@ function initInteractions() {
     document.documentElement.classList.add('snap-page');
   }
 
-  // Sticky full-page slides — reveal + active dot indicator
+  // Sticky full-page slides — reveal on enter
   const fpSlides = document.querySelector('.fp-slides');
   if (fpSlides) {
     const slides = fpSlides.querySelectorAll('.fp-slide');
-    const nav = document.querySelector('.fp-nav');
-    let dots = [];
-    if (nav) {
-      nav.innerHTML = '';
-      slides.forEach((s, i) => {
-        const b = document.createElement('button');
-        b.setAttribute('aria-label', `Slide ${i + 1}`);
-        b.addEventListener('click', () => s.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-        nav.appendChild(b);
-      });
-      dots = [...nav.querySelectorAll('button')];
-    }
     const slideIO = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           e.target.classList.add('in-view');
-          if (dots.length) {
-            const idx = [...slides].indexOf(e.target);
-            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-          }
         }
       });
     }, { threshold: 0.4 });
