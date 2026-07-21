@@ -438,16 +438,18 @@ html.snap-page .fp-slides{scroll-snap-align:start}
 .fp-slides{
   position:relative;
   height:100svh;
-  overflow-y:auto;
-  scroll-snap-type:y mandatory;
-  scrollbar-width:none;
+  overflow:hidden;
 }
-.fp-slides::-webkit-scrollbar{display:none}
+.fp-slides-track{
+  display:flex;
+  flex-direction:column;
+  transition:transform 0.7s cubic-bezier(.77,0,.175,1);
+  will-change:transform;
+}
 .fp-slide{
   height:100svh;
   min-height:100svh;
-  scroll-snap-align:start;
-  scroll-snap-stop:always;
+  flex-shrink:0;
   position:relative;
   display:grid;place-items:center;
   padding:var(--sp-7) var(--gutter);

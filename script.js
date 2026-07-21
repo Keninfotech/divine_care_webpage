@@ -168,18 +168,61 @@ function initInteractions() {
     document.documentElement.classList.add('snap-page');
   }
 
-  // Sticky full-page slides — reveal on enter
+  // Sticky full-page slides — JS-driven navigation (wheel + touch)
+  // This avoids the browser sending scroll events into the container
+  // depending on cursor position.
   const fpSlides = document.querySelector('.fp-slides');
-  if (fpSlides) {
-    const slides = fpSlides.querySelectorAll('.fp-slide');
-    const slideIO = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in-view');
-        }
-      });
-    }, { threshold: 0.4 });
-    slides.forEach(s => slideIO.observe(s));
+  const fpTrack  = document.querySelector('.fp-slides-track');
+  if (fpSlides && fpTrack) {
+    const slides = fpTrack.querySelectorAll('.fp-slide');
+    const total  = slides.length;
+    let current  = 0;
+    let busy     = false;
+    let active   = false; // true when .fp-slides is fully in view
+
+    function goTo(idx) {
+      if (idx < 0 || idx >= total) return false;
+      current = idx;
+      fpTrack.style.transform = `translateY(${-current * 100}vh)`;
+      slides.forEach((s, i) => s.classList.toggle('in-view', i === current));
+      return true;
+    }
+    goTo(0);
+
+    // Watch when the slides container enters / leaves the viewport
+    const visIO = new IntersectionObserver(entries => {
+      entries.forEach(e => { active = e.intersectionRatio >= 0.95; });
+    }, { threshold: 0.95 });
+    visIO.observe(fpSlides);
+
+    // Wheel handler — intercept only when the container is fully visible
+    fpSlides.addEventListener('wheel', e => {
+      if (!active) return;
+      e.preventDefault();
+      if (busy) return;
+      const dir = e.deltaY > 0 ? 1 : -1;
+      // At last slide scrolling down → let page continue
+      if (dir === 1 && current === total - 1) { active = false; return; }
+      // At first slide scrolling up → let page continue
+      if (dir === -1 && current === 0) { active = false; return; }
+      busy = true;
+      goTo(current + dir);
+      setTimeout(() => { busy = false; }, 750);
+    }, { passive: false });
+
+    // Touch support
+    let touchY = null;
+    fpSlides.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
+    fpSlides.addEventListener('touchend', e => {
+      if (!active || touchY === null) return;
+      const diff = touchY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) < 40) return;
+      const dir = diff > 0 ? 1 : -1;
+      if (dir === 1 && current === total - 1) { active = false; return; }
+      if (dir === -1 && current === 0) { active = false; return; }
+      if (!busy) { busy = true; goTo(current + dir); setTimeout(() => { busy = false; }, 750); }
+      touchY = null;
+    }, { passive: true });
   }
 
   // Admissions page — GSAP ScrollTrigger stacked cards (pins each card, then
