@@ -1284,15 +1284,13 @@ footer a:hover {
     text-align: left;
   }
 
-  /* Brand block: 1st child — full width row, but split internally into
-     left (logo + name) / right (description paragraph) columns so it
-     matches the table look of the link groups below it. */
+  /* Brand block: 1st child — sits in top-left cell.
+     Logo + para stack vertically so all 4 blocks form a true 2x2 grid. */
   .footer-grid>div:nth-child(1) {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: var(--sp-4);
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-3);
     text-align: left;
   }
 
@@ -1319,9 +1317,8 @@ footer a:hover {
     text-align: left;
   }
 
-  /* Contact (4th): full width below, left-aligned */
+  /* Contact (4th): bottom-right cell, left-aligned */
   .footer-grid>div:nth-child(4) {
-    grid-column: 1 / -1;
     text-align: left;
   }
 
