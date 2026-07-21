@@ -435,11 +435,21 @@ section{position:relative}
    root scroller, activated only on the experience page via JS.
    ================================================================ */
 html.snap-page{scroll-snap-type:y proximity}
-html.snap-page .fp-slide{scroll-snap-align:start;scroll-snap-stop:normal}
+html.snap-page .fp-slides{scroll-snap-align:start}
 
-.fp-slides{position:relative}
+.fp-slides{
+  position:relative;
+  height:100svh;
+  overflow-y:auto;
+  scroll-snap-type:y mandatory;
+  scrollbar-width:none;
+}
+.fp-slides::-webkit-scrollbar{display:none}
 .fp-slide{
+  height:100svh;
   min-height:100svh;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
   position:relative;
   display:grid;place-items:center;
   padding:var(--sp-7) var(--gutter);
