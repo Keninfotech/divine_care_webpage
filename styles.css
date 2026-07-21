@@ -72,7 +72,6 @@ p{font-size:clamp(0.95rem, 0.4vw + 0.8rem, 1.1rem)}
 /* Eyebrows on dark backgrounds (navy backgrounds, overlays, footer, stacked sections) */
 .hero .eyebrow,
 .css-parallax .eyebrow,
-.stacked .eyebrow,
 .stacked-item .eyebrow,
 .fp-slide .eyebrow,
 .cta .eyebrow,
@@ -82,7 +81,6 @@ footer .eyebrow {
 }
 .hero .eyebrow::before,
 .css-parallax .eyebrow::before,
-.stacked .eyebrow::before,
 .stacked-item .eyebrow::before,
 .fp-slide .eyebrow::before,
 .cta .eyebrow::before,
@@ -313,10 +311,10 @@ section{position:relative}
 /* ================================================================
    11. STICKY PARALLAX SECTIONS  (existing, tuned)
    ================================================================ */
-.stacked{background:linear-gradient(135deg, var(--navy) 0%, var(--ink) 100%);color:#fff;position:relative}
+.stacked{background:var(--cream);color:var(--ink);position:relative}
 .stacked-intro{padding:var(--sp-8) 0 var(--sp-5);text-align:center}
-.stacked-intro h2{color:#fff;max-width:36ch;margin:var(--sp-4) auto var(--sp-3)}
-.stacked-intro p{color:rgba(255,255,255,.7);max-width:52ch;margin:0 auto}
+.stacked-intro h2{color:var(--navy);max-width:36ch;margin:var(--sp-4) auto var(--sp-3)}
+.stacked-intro p{color:var(--muted);max-width:52ch;margin:0 auto}
 .stacked-item{
   position:sticky;top:0;height:100svh;
   display:grid;grid-template-columns:1fr 1fr;
