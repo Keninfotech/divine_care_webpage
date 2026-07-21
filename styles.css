@@ -334,8 +334,8 @@ section{position:relative}
 .stacked-item p{color:rgba(255,255,255,.72)}
 .stacked-item .s-index{margin-top:var(--sp-5);font-size:12px;letter-spacing:.3em;color:var(--gold)}
 @media (max-width:900px){
-  .stacked-item{grid-template-columns:1fr;height:auto;position:relative;padding:var(--sp-7) var(--gutter)}
-  .stacked-item .s-img{height:50vh}
+  .stacked-item{grid-template-columns:1fr;height:100svh;position:sticky;top:0;padding:var(--sp-7) var(--gutter)}
+  .stacked-item .s-img{height:45vh}
 }
 
 /* ================================================================
