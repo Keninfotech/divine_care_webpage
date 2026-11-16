@@ -3,48 +3,171 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Contact Divine Care</title>
-<meta name="description" content="Book a visit, request a brochure or ask a question, our team is here to help." />
-<meta property="og:title" content="Contact Divine Care" />
-<meta property="og:description" content="Book a visit, request a brochure or ask a question, our team is here to help." />
+<title>Contact Us & FAQs | Divine Care Homes Scotland Ltd.</title>
+<meta name="description" content="Contact Divine Care Homes Scotland Ltd. to enquire about care, arrange a visit to Deanston Enhanced Care or Centenary House Care Home, or ask questions." />
+<meta property="og:title" content="Contact Us & FAQs | Divine Care Homes Scotland Ltd." />
+<meta property="og:description" content="We are here to help. Contact our dedicated care team in Coatbridge, Scotland." />
 <meta property="og:type" content="website" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="logo.png" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body data-page="contact">
 <div id="site-header" data-variant="light"></div>
-<section class="page-hero" style="padding-bottom:60px">
+
+<section class="page-hero">
   <div class="container">
-    <span class="eyebrow reveal">Contact</span>
-    <h1 class="display reveal delay-1" style="color:var(--navy);margin:20px 0 24px">We're here to help.</h1>
-    <p class="reveal delay-2" style="max-width:640px;color:var(--muted);font-size:17px">Whether you have a question about care, want to arrange a visit, or need guidance on funding, our friendly team is ready to help. Reach out however feels easiest.</p>
+    <span class="eyebrow reveal">Divine Care Homes Scotland Ltd.</span>
+    <h1 class="display reveal delay-1" style="color:var(--navy);margin:16px 0 20px">We are here to help</h1>
+    <p class="reveal delay-2" style="max-width:680px;color:var(--muted);font-size:18px;line-height:1.7">Choosing the right care and support can be a difficult decision. Our team is available to discuss your requirements, answer your questions and guide you through the next steps.</p>
   </div>
 </section>
-<section class="section" style="padding-top:40px">
+
+<!-- ARRANGE A VISIT ACTION STRIP -->
+<section style="background:var(--cream);padding:36px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px">
+    <div>
+      <h3 class="display" style="color:var(--navy);font-size:24px;margin-bottom:6px">Arrange a Visit to Our Homes</h3>
+      <p class="muted" style="font-size:15px">We encourage prospective residents and families to visit, meet our team and experience our homes first-hand.</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="deanston.html#visit" class="btn dark">Visit Deanston</a>
+      <a href="centenary.html#visit" class="btn ghost" style="color:var(--navy);border-color:var(--navy)">Visit Centenary House</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT GRID -->
+<section class="section">
   <div class="container contact-grid">
-    <form class="enquiry reveal">
-      <div class="field"><label>Your name</label><input name="name" required/></div>
-      <div class="field"><label>Email address</label><input type="email" name="email" required/></div>
-      <div class="field"><label>Phone</label><input type="tel" name="phone"/></div>
-      <div class="field"><label>Preferred home</label><select name="home">
-        <option>Either home</option><option>Centenary House Nursing Home, Glasgow</option><option>Strathyre House, East Kilbride</option>
-      </select></div>
-      <div class="field"><label>How can we help?</label><textarea name="message"></textarea></div>
-      <button type="submit" class="btn dark">Send enquiry →</button>
-    </form>
+    <!-- ENQUIRY FORM -->
+    <div>
+      <form class="enquiry reveal">
+        <h3 class="display" style="color:var(--navy);font-size:26px;margin-bottom:8px">Send Us a Message</h3>
+        <p class="muted" style="font-size:14.5px;margin-bottom:20px">Whether you are enquiring about nursing, dementia, residential, or respite care, we would be pleased to hear from you.</p>
+
+        <div class="field">
+          <label>Your Name *</label>
+          <input type="text" name="name" required placeholder="e.g. Margaret Stewart"/>
+        </div>
+        <div class="field">
+          <label>Email Address *</label>
+          <input type="email" name="email" required placeholder="e.g. margaret@example.co.uk"/>
+        </div>
+        <div class="field">
+          <label>Phone Number *</label>
+          <input type="tel" name="phone" required placeholder="e.g. 07700 900555"/>
+        </div>
+        <div class="field">
+          <label>Preferred Home</label>
+          <select name="home">
+            <option value="both">Either Home / General Enquiry</option>
+            <option value="deanston">Deanston Enhanced Care (Blairhill, Coatbridge)</option>
+            <option value="centenary">Centenary House Care Home (Whifflet, Coatbridge)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Care Type Required</label>
+          <select name="care_type">
+            <option value="nursing">Nursing Care</option>
+            <option value="dementia">Dementia Care</option>
+            <option value="residential">Residential Care</option>
+            <option value="respite">Respite Care</option>
+            <option value="other">Other / General Question</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>How Can We Help?</label>
+          <textarea name="message" placeholder="Please write your questions or details regarding the care you are seeking..."></textarea>
+        </div>
+        <button type="submit" class="btn dark" style="margin-top:10px">Submit Message →</button>
+      </form>
+    </div>
+
+    <!-- CONTACT DETAILS ASIDE -->
     <aside class="reveal delay-1">
-      <div style="aspect-ratio:4/3;overflow:hidden"><img src="images/Home care/1.jfif" alt="" style="width:100%;height:100%;object-fit:cover" loading="lazy" decoding="async"/></div>
-      <div style="margin-top:30px;display:grid;gap:24px">
-        <div><span class="eyebrow">Call us</span><p style="font-family:var(--font-display);font-size:22px;color:var(--navy);margin-top:6px">0000 000 0000</p></div>
-        <div><span class="eyebrow">Email</span><p style="font-family:var(--font-display);font-size:22px;color:var(--navy);margin-top:6px">enquiries@divinecarehomes.co.uk</p></div>
-        <div><span class="eyebrow">Head office</span><p style="font-family:var(--font-display);font-size:22px;color:var(--navy);margin-top:6px">16 Strathyre Gardens, East Kilbride, Glasgow, Scotland, G75 8GP</p></div>
+      <div style="aspect-ratio:4/3;overflow:hidden;border-radius:var(--radius);border:1px solid var(--line);margin-bottom:30px">
+        <img src="images/Home care/1.jfif" alt="Divine Care Homes Warm Atmosphere" style="width:100%;height:100%;object-fit:cover" loading="lazy" decoding="async"/>
+      </div>
+      
+      <div style="display:grid;gap:24px">
+        <div>
+          <span class="eyebrow" style="color:var(--gold)">Telephone</span>
+          <p style="font-family:var(--font-display);font-size:24px;color:var(--navy);margin-top:6px">01236 000000</p>
+          <p style="font-size:13px;color:var(--muted)">Lines open Monday – Sunday for enquiries</p>
+        </div>
+        <div>
+          <span class="eyebrow" style="color:var(--gold)">Email</span>
+          <p style="font-family:var(--font-display);font-size:22px;color:var(--navy);margin-top:6px"><a href="mailto:enquiries@divinecarehomes.co.uk">enquiries@divinecarehomes.co.uk</a></p>
+        </div>
+        <div>
+          <span class="eyebrow" style="color:var(--gold)">Our Care Homes</span>
+          <p style="font-size:15px;color:var(--ink);margin-top:6px;line-height:1.6">
+            <strong>Deanston Enhanced Care:</strong><br/>
+            36 Lefroy Street, Blairhill, Coatbridge, ML5 1LZ<br/>
+            <em>(Near M8 motorway & Blairhill station)</em>
+          </p>
+          <p style="font-size:15px;color:var(--ink);margin-top:10px;line-height:1.6">
+            <strong>Centenary House Care Home:</strong><br/>
+            Whifflet, Coatbridge, North Lanarkshire<br/>
+            <em>(Close to Whifflet station & local shops)</em>
+          </p>
+        </div>
+        <div>
+          <span class="eyebrow" style="color:var(--gold)">Official Website</span>
+          <p style="font-size:15px;color:var(--ink);margin-top:4px">www.divinecarehomes.co.uk</p>
+        </div>
       </div>
     </aside>
   </div>
 </section>
+
+<!-- FAQS SECTION -->
+<section class="section cream" id="faqs">
+  <div class="container" style="max-width:880px">
+    <span class="eyebrow reveal">Answers & Guidance</span>
+    <h2 class="display reveal delay-1" style="color:var(--navy);font-size:clamp(30px,3.2vw,46px);margin:14px 0 28px">Frequently Asked Questions</h2>
+    
+    <div class="acc-item reveal">
+      <button class="acc-q" type="button">How do I arrange a care-home placement? <span>+</span></button>
+      <div class="acc-a">
+        <p style="padding-bottom:20px;line-height:1.7">Contact our team to discuss your requirements. We will explain the assessment and admission process and establish whether the home can meet the person’s needs. We work collaboratively with families, social work departments, and hospital discharge teams to facilitate a smooth, unhurried transition.</p>
+      </div>
+    </div>
+
+    <div class="acc-item reveal delay-1">
+      <button class="acc-q" type="button">Can family members visit? <span>+</span></button>
+      <div class="acc-a">
+        <p style="padding-bottom:20px;line-height:1.7">We welcome family involvement and visits, respecting residents’ preferences, rights and any applicable safety arrangements. You are always welcome to join your loved one for tea, spend time in our gardens, or participate in home activities.</p>
+      </div>
+    </div>
+
+    <div class="acc-item reveal delay-2">
+      <button class="acc-q" type="button">Can I arrange a respite stay? <span>+</span></button>
+      <div class="acc-a">
+        <p style="padding-bottom:20px;line-height:1.7">Please contact the relevant home to discuss availability, suitability and assessment arrangements. Respite stays are available for planned breaks, recovery following hospital stays, or trial periods.</p>
+      </div>
+    </div>
+
+    <div class="acc-item reveal">
+      <button class="acc-q" type="button">How are care fees determined? <span>+</span></button>
+      <div class="acc-a">
+        <p style="padding-bottom:20px;line-height:1.7">Fees depend on the type of care, individual requirements and the particular home. Our team can discuss the applicable fees and payment arrangements transparently, including Free Personal and Nursing Care funding in Scotland.</p>
+      </div>
+    </div>
+
+    <div class="acc-item reveal delay-1">
+      <button class="acc-q" type="button">Can I visit before making a decision? <span>+</span></button>
+      <div class="acc-a">
+        <p style="padding-bottom:20px;line-height:1.7">Yes. We encourage prospective residents and their families to arrange a visit before deciding on a placement. Meeting our managers, seeing the rooms and experiencing the atmosphere firsthand gives families peace of mind.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div id="site-footer"></div>
 <script src="script.js"></script>
-</body></html>
+</body>
+</html>

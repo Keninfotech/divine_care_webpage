@@ -12,16 +12,12 @@
 
 const NAV_LINKS = [
   ['index.html', 'Home'],
-  ['about.html', 'About'],
-  ['care.html', 'Our Care'],
-  ['homes.html', 'Homes'],
-  ['life.html', 'Life'],
-  ['experience.html', 'Experience'],
-  ['admissions.html', 'Admissions'],
-  ['fees.html', 'Fees'],
-  ['news.html', 'Journal'],
+  ['deanston.html', 'Deanston Enhanced Care'],
+  ['centenary.html', 'Centenary House'],
+  ['care.html', 'Care Services'],
+  ['about.html', 'About Us'],
   ['careers.html', 'Careers'],
-  ['contact.html', 'Contact'],
+  ['contact.html', 'Contact & FAQs'],
 ];
 
 // Low-end / constrained-device detection, used to skip decorative
@@ -44,8 +40,8 @@ function renderHeader() {
 <header class="${cls}">
   <div class="container nav">
     <a href="index.html" class="brand">
-      <img src="logo.png" alt="Divine Care Homes" decoding="async" />
-      <span class="brand-text">Divine Care Homes<small>Centenary House Nursing Home</small></span>
+      <img src="logo.png" alt="Divine Care Homes Scotland Ltd." decoding="async" />
+      <span class="brand-text">Divine Care Homes<small>Scotland Ltd.</small></span>
     </a>
     <ul class="nav-links">
       ${NAV_LINKS.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}
@@ -64,42 +60,42 @@ function renderFooter() {
     <div class="footer-grid">
       <div>
         <a href="index.html" class="brand footer-brand">
-          <span class="logo-badge"><img src="logo.png" alt="Divine Care Homes" loading="lazy" decoding="async" /></span>
-          <span class="brand-text">Divine Care Homes<small>Centenary House Nursing Home</small></span>
+          <span class="logo-badge"><img src="logo.png" alt="Divine Care Homes Scotland Ltd." loading="lazy" decoding="async" /></span>
+          <span class="brand-text">Divine Care Homes<small>Scotland Ltd.</small></span>
         </a>
-        <p style="max-width:280px;margin-top:6px">Compassionate residential, nursing and specialist care in Scotland from Centenary House Nursing Home and Strathyre House.</p>
+        <p style="max-width:320px;margin-top:12px;color:rgba(255,255,255,0.75)">Delivering excellence in care with a DIVINE touch. Person-centred residential, nursing, dementia, and respite care across Scotland.</p>
       </div>
       <div>
-        <h4>Explore</h4>
+        <h4>Our Homes</h4>
         <ul>
-          <li><a href="about.html">About</a></li>
-          <li><a href="care.html">Our care</a></li>
-          <li><a href="homes.html">Homes</a></li>
-          <li><a href="life.html">Life</a></li>
-          <li><a href="experience.html">Experience</a></li>
+          <li><a href="deanston.html">Deanston Enhanced Care</a></li>
+          <li><a href="centenary.html">Centenary House Care Home</a></li>
+          <li><a href="homes.html">Overview of Homes</a></li>
         </ul>
       </div>
       <div>
-        <h4>Support</h4>
+        <h4>Company</h4>
         <ul>
-          <li><a href="admissions.html">Admissions</a></li>
-          <li><a href="fees.html">Fees</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="care.html">Care Services</a></li>
+          <li><a href="index.html#quality">Quality & Safety</a></li>
           <li><a href="careers.html">Careers</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="contact.html">Contact Us & FAQs</a></li>
         </ul>
       </div>
       <div>
-        <h4>Contact</h4>
+        <h4>Locations & Enquiries</h4>
         <ul>
-          <li>0000 000 0000</li>
-          <li>enquiries@divinecarehomes.co.uk</li>
-          <li>16 Strathyre Gardens,<br/>East Kilbride, Glasgow,<br/>Scotland, G75 8GP</li>
+          <li><strong>Deanston:</strong> 36 Lefroy St, Coatbridge ML5 1LZ</li>
+          <li><strong>Centenary:</strong> Whifflet, Coatbridge</li>
+          <li><a href="mailto:enquiries@divinecarehomes.co.uk">enquiries@divinecarehomes.co.uk</a></li>
+          <li>01236 000000</li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© ${new Date().getFullYear()} Divine Care Ltd.</span>
-      <span>Privacy · Cookies · Modern Slavery</span>
+      <span>© 2026 Divine Care Homes Scotland Ltd. Services are provided according to each home’s registration, availability and individual assessment.</span>
+      <span>Dignity · Individuality · Value · Integrity · Nurturing · Excellence</span>
     </div>
   </div>
 </footer>`;
@@ -161,6 +157,42 @@ function initInteractions() {
   // Accordion
   document.querySelectorAll('.acc-item .acc-q').forEach(q => {
     q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
+  });
+
+  // Care Services Tab Switcher
+  const tabBtns = document.querySelectorAll('.care-tab-btn');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetPaneId = btn.dataset.tab;
+      const parent = btn.closest('.care-tabs-container') || document;
+      parent.querySelectorAll('.care-tab-btn').forEach(b => b.classList.remove('active'));
+      parent.querySelectorAll('.care-tab-pane').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      const targetPane = parent.querySelector(`.care-tab-pane[data-pane="${targetPaneId}"]`);
+      if (targetPane) targetPane.classList.add('active');
+    });
+  });
+
+  // Form submission feedback
+  document.querySelectorAll('form.enquiry').forEach(form => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      const originalText = btn ? btn.textContent : '';
+      if (btn) {
+        btn.textContent = 'Enquiry Sent! Thank you.';
+        btn.style.background = 'var(--gold)';
+        btn.disabled = true;
+      }
+      setTimeout(() => {
+        form.reset();
+        if (btn) {
+          btn.textContent = originalText;
+          btn.style.background = '';
+          btn.disabled = false;
+        }
+      }, 4000);
+    });
   });
 
   // Experience page — enable scroll-snap on root (skipped for reduced motion)
