@@ -16,7 +16,6 @@ const NAV_LINKS = [
   ['centenary.html', 'Centenary House'],
   ['care.html', 'Care Services'],
   ['about.html', 'About Us'],
-  ['careers.html', 'Careers'],
   ['contact.html', 'Contact & FAQs'],
 ];
 
@@ -79,7 +78,6 @@ function renderFooter() {
           <li><a href="about.html">About Us</a></li>
           <li><a href="care.html">Care Services</a></li>
           <li><a href="index.html#quality">Quality & Safety</a></li>
-          <li><a href="careers.html">Careers</a></li>
           <li><a href="contact.html">Contact Us & FAQs</a></li>
         </ul>
       </div>
