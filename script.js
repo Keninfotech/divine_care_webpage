@@ -37,6 +37,7 @@ function renderHeader() {
   const cls = variant === 'light' ? 'site-header light' : 'site-header';
   host.outerHTML = `
 <header class="${cls}">
+  <div class="site-progress-bar"><div class="bar"></div></div>
   <div class="container nav">
     <a href="index.html" class="brand">
       <img src="logo.png" alt="Divine Care Homes Scotland Ltd." decoding="async" />
@@ -120,11 +121,30 @@ function initInteractions() {
     if (a.getAttribute('href') === path) a.style.color = 'var(--gold-2)';
   });
 
-  // Reveal on scroll — IntersectionObserver only, no scroll listener needed
+  // Auto-stagger grid elements for fluid cascading scroll reveal
+  const staggerContainers = document.querySelectorAll(
+    '.home-showcase-grid, .divine-values-grid, .why-grid, .qa-grid, .facility-grid, .gallery-grid, .settling-grid, .card-grid'
+  );
+  staggerContainers.forEach(container => {
+    const children = Array.from(container.children);
+    children.forEach((child, idx) => {
+      if (!child.classList.contains('reveal') && !child.classList.contains('reveal-scale')) {
+        child.classList.add('reveal');
+      }
+      child.style.transitionDelay = `${(idx % 4) * 0.12}s`;
+    });
+  });
+
+  // Reveal on scroll — IntersectionObserver
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-up').forEach(el => io.observe(el));
 
   // Stat counters (skip the count-up animation on low-end/reduced-motion, jump to the final value)
   const stats = document.querySelectorAll('.stat .num[data-target]');
@@ -359,10 +379,35 @@ function initInteractions() {
     admBar.style.width = `${Math.max(0, Math.min(1, p)) * 100}%`;
   }
 
+  // Global reading-progress bar under the header for all pages
+  const globalProgressBar = document.querySelector('.site-progress-bar .bar');
+  function updateGlobalScrollProgress() {
+    if (!globalProgressBar) return;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (docHeight <= 0) return;
+    const p = Math.min(1, Math.max(0, window.scrollY / docHeight));
+    globalProgressBar.style.width = `${p * 100}%`;
+  }
+
+  // Subtle image parallax on scroll for hero & two-column imagery
+  const parallaxImgs = document.querySelectorAll('.page-hero .hero-img img, .two-col .col-img img');
+  function updateParallaxImages() {
+    if (REDUCE_FX || !isDesktopWide()) return;
+    parallaxImgs.forEach(img => {
+      const rect = img.getBoundingClientRect();
+      if (rect.bottom >= -50 && rect.top <= window.innerHeight + 50) {
+        const offset = ((rect.top + rect.height / 2) - window.innerHeight / 2) * 0.05;
+        img.style.setProperty('--scroll-y', `${offset}px`);
+      }
+    });
+  }
+
   let ticking = false;
   function onScrollFrame() {
     updateHeader();
     updateHeroParallax();
+    updateGlobalScrollProgress();
+    updateParallaxImages();
     updateHGallery();
     updateStackCards();
     updateAdmissionsProgress();

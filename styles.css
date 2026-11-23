@@ -303,14 +303,15 @@ footer .eyebrow::before {
   font-weight: 600;
   letter-spacing: .06em;
   text-transform: uppercase;
-  transition: transform .3s, background .3s;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, box-shadow 0.35s ease;
   white-space: nowrap;
 }
 
 .btn:hover {
   background: var(--gold);
   color: #fff;
-  transform: translateY(-1px)
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -6px rgba(138, 122, 46, 0.4);
 }
 
 .btn.ghost {
@@ -320,8 +321,10 @@ footer .eyebrow::before {
 }
 
 .btn.ghost:hover {
-  background: rgba(255, 255, 255, .12);
-  color: #fff
+  background: rgba(255, 255, 255, .15);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(255, 255, 255, 0.2);
 }
 
 .btn.dark {
@@ -331,7 +334,9 @@ footer .eyebrow::before {
 
 .btn.dark:hover {
   background: var(--navy-2);
-  color: #fff
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -6px rgba(51, 64, 26, 0.3);
 }
 
 .menu-toggle {
@@ -590,28 +595,94 @@ section {
   object-fit: cover
 }
 
-/* ---------- Reveal ---------- */
-.reveal {
+/* ---------- Reveal & Scrolly Animations ---------- */
+.reveal,
+.reveal-up {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 1s cubic-bezier(.22, .61, .36, 1), transform 1s cubic-bezier(.22, .61, .36, 1)
+  transform: translateY(32px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
-.reveal.in {
+.reveal.in,
+.reveal-up.in {
   opacity: 1;
-  transform: none
+  transform: translateY(0);
 }
 
-.reveal.delay-1 {
-  transition-delay: .1s
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
-.reveal.delay-2 {
-  transition-delay: .2s
+.reveal-left.in {
+  opacity: 1;
+  transform: translateX(0);
 }
 
-.reveal.delay-3 {
-  transition-delay: .3s
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-right.in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.93) translateY(24px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-scale.in {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.reveal.delay-1, .delay-1 { transition-delay: .1s }
+.reveal.delay-2, .delay-2 { transition-delay: .2s }
+.reveal.delay-3, .delay-3 { transition-delay: .3s }
+.reveal.delay-4, .delay-4 { transition-delay: .4s }
+.reveal.delay-5, .delay-5 { transition-delay: .5s }
+.reveal.delay-6, .delay-6 { transition-delay: .6s }
+
+/* Animated Eyebrow Line drawing effect */
+.eyebrow::before {
+  transition: width 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Subtle image parallax */
+.page-hero .hero-img img,
+.two-col .col-img img {
+  transform: translateY(var(--scroll-y, 0px)) scale(1.02);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Global scroll progress bar */
+.site-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.03);
+  z-index: 60;
+}
+
+.site-progress-bar .bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-2));
+  box-shadow: 0 0 10px rgba(184, 159, 74, 0.55);
+  transition: width 0.08s linear;
 }
 
 /* ---------- Stats ---------- */
@@ -1693,13 +1764,13 @@ form.enquiry button {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
-  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
   position: relative;
 }
 
 .home-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(74, 90, 30, 0.08);
+  transform: translateY(-8px);
+  box-shadow: 0 24px 48px -12px rgba(74, 90, 30, 0.14);
   border-color: var(--sage);
 }
 
@@ -1714,11 +1785,11 @@ form.enquiry button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .6s ease;
+  transition: transform .6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .home-card:hover .home-card-media img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .home-badge {
@@ -1921,12 +1992,13 @@ form.enquiry button {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: clamp(24px, 2.5vw, 32px);
-  transition: transform .3s ease, border-color .3s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
   position: relative;
 }
 
 .divine-val-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px -8px rgba(74, 90, 30, 0.12);
   border-color: var(--gold);
 }
 
@@ -1944,6 +2016,13 @@ form.enquiry button {
   font-weight: bold;
   margin-bottom: 16px;
   border: 1px solid var(--line);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+}
+
+.divine-val-card:hover .divine-letter-badge {
+  transform: scale(1.08);
+  background: var(--white);
+  border-color: var(--gold);
 }
 
 .divine-val-card h3 {
@@ -1972,6 +2051,13 @@ form.enquiry button {
   border: 1px solid var(--line);
   padding: 30px;
   border-radius: var(--radius);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+}
+
+.qa-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px -8px rgba(74, 90, 30, 0.1);
+  border-color: var(--sage);
 }
 
 .qa-card-num {
@@ -2012,6 +2098,13 @@ form.enquiry button {
   display: flex;
   gap: 18px;
   align-items: flex-start;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+}
+
+.why-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 32px -8px rgba(74, 90, 30, 0.1);
+  border-color: var(--sage);
 }
 
 .why-icon {
@@ -2026,6 +2119,13 @@ form.enquiry button {
   font-size: 16px;
   flex-shrink: 0;
   border: 1px solid var(--sage);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+}
+
+.why-card:hover .why-icon {
+  transform: scale(1.1);
+  background: var(--sage);
+  color: var(--navy-2);
 }
 
 .why-card h3 {
@@ -2050,6 +2150,13 @@ form.enquiry button {
   border-radius: var(--radius);
   padding: 24px;
   text-align: left;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+}
+
+.facility-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px -8px rgba(74, 90, 30, 0.1);
+  border-color: var(--sage);
 }
 
 .facility-card h4 {
@@ -2080,17 +2187,23 @@ form.enquiry button {
   overflow: hidden;
   background: var(--cream);
   border: 1px solid var(--line);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -10px rgba(51, 64, 26, 0.18);
 }
 
 .gallery-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .4s ease;
+  transition: transform .55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .gallery-item:hover img {
-  transform: scale(1.04);
+  transform: scale(1.06);
 }
 
 .gallery-badge {
@@ -2099,12 +2212,17 @@ form.enquiry button {
   left: 12px;
   right: 12px;
   padding: 8px 14px;
-  background: rgba(30, 35, 20, 0.75);
+  background: rgba(30, 35, 20, 0.78);
   backdrop-filter: blur(8px);
   color: var(--white);
   font-size: 12px;
   border-radius: 6px;
   letter-spacing: 0.05em;
+  transition: background 0.3s ease;
+}
+
+.gallery-item:hover .gallery-badge {
+  background: rgba(51, 64, 26, 0.9);
 }
 
 /* Settling-in cards for Centenary House */
@@ -2121,6 +2239,13 @@ form.enquiry button {
   border-radius: var(--radius);
   padding: 32px;
   position: relative;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+}
+
+.settling-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px -8px rgba(74, 90, 30, 0.1);
+  border-color: var(--gold);
 }
 
 .settling-step {
