@@ -87,7 +87,7 @@ function renderFooter() {
         <ul>
           <li><strong>Deanston:</strong> 36 Lefroy St, Coatbridge ML5 1LZ</li>
           <li><strong>Centenary:</strong> Whifflet, Coatbridge</li>
-          <li><a href="mailto:enquiries@divinecarehomes.co.uk">enquiries@divinecarehomes.co.uk</a></li>
+          <li><a href="mailto:divinecarehomesscotland@gmail.com">divinecarehomesscotland@gmail.com</a></li>
           <li>01236 000000</li>
         </ul>
       </div>
