@@ -695,139 +695,101 @@
             <h3 class="display" style="color:var(--navy);font-size:26px;margin-bottom:8px">Send an Enquiry or Arrange a Visit</h3>
             <p class="muted" style="font-size:14.5px;margin-bottom:20px">Fill in your details below and a senior member of our care team will get back to you promptly.</p>
 
-            <div class="field">
-              <label>Your Name *</label>
-              <input type="text" name="name" required placeholder="e.g. Eleanor Campbell" />
-            </div>
-            <div class="field">
-              <label>Email Address *</label>
-              <input type="email" name="email" required placeholder="e.g. eleanor@example.co.uk" />
-            </div>
-            <div class="field">
-              <label>Phone Number *</label>
-              <input type="tel" name="phone" required placeholder="e.g. 07700 900123" />
-            </div>
-            <div class="field">
-              <label>Select Home of Interest</label>
-              <select name="home">
-                <option value="both">Either Home / General Enquiry</option>
-                <option value="deanston">Deanston Enhanced Care (Blairhill, Coatbridge)</option>
-                <option value="centenary">Centenary House Care Home (Whifflet, Coatbridge)</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Care Type Required</label>
-              <select name="care_type">
-                <option value="nursing">Nursing Care</option>
-                <option value="dementia">Dementia Care</option>
-                <option value="residential">Residential Care</option>
-                <option value="respite">Respite / Short Stay</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>How Can We Help You?</label>
-              <textarea name="message"
-                placeholder="Please let us know how we can help, or tell us your preferred visit date and time..."></textarea>
-            </div>
-            <button type="submit" class="btn dark" style="margin-top:10px">Submit Enquiry →</button>
-          </form>
-        </div>
-
-        <!-- ARRANGE A VISIT & INFO ASIDE -->
-        <aside class="reveal delay-1">
-          <div
-            style="background:var(--white);padding:32px;border-radius:var(--radius);border:1px solid var(--line);margin-bottom:32px">
-            <span class="eyebrow" style="color:var(--gold)">Personal Visits</span>
-            <h3 class="display" style="color:var(--navy);font-size:24px;margin:10px 0 12px">Arrange a visit to our homes
-            </h3>
-            <p class="muted" style="font-size:14.5px;line-height:1.65;margin-bottom:20px">We warmly encourage
-              prospective residents and their families to visit an appropriate home, meet our team and learn more about
-              the care and support available.</p>
-            <div style="display:flex;flex-direction:column;gap:12px">
-              <a href="deanston.html#visit" class="btn" style="text-align:center">Visit Deanston</a>
-              <a href="centenary.html#visit" class="btn ghost"
-                style="text-align:center;color:var(--navy);border-color:var(--navy)">Visit Centenary House</a>
-            </div>
-          </div>
-
-          <div style="display:grid;gap:20px">
-            <div>
-              <span class="eyebrow" style="color:var(--gold)">Telephone</span>
-              <p style="font-family:var(--font-display);font-size:22px;color:var(--navy);margin-top:4px">01236 000000
-              </p>
-            </div>
-            <div>
-              <span class="eyebrow" style="color:var(--gold)">Email</span>
-              <p style="font-family:var(--font-display);font-size:20px;color:var(--navy);margin-top:4px"><a
-                  href="mailto:divinecarehomesscotland@gmail.com">divinecarehomesscotland@gmail.com</a></p>
-            </div>
-            <div>
-              <span class="eyebrow" style="color:var(--gold)">Registered Head Office</span>
-              <p style="font-size:15px;color:var(--ink);margin-top:4px;line-height:1.5">Divine Care Homes Scotland
-                Ltd.<br />Coatbridge, North Lanarkshire, Scotland</p>
-            </div>
-            <div>
-              <span class="eyebrow" style="color:var(--gold)">Website</span>
-              <p style="font-size:15px;color:var(--ink);margin-top:4px">www.divinecarehomes.co.uk</p>
-            </div>
-          </div>
-        </aside>
-      </div>
-
-      <!-- FAQS ACCORDION -->
-      <div style="margin-top:80px;max-width:860px" id="faqs">
-        <span class="eyebrow reveal">Frequently Asked Questions</span>
-        <h3 class="display reveal delay-1"
-          style="color:var(--navy);font-size:clamp(28px,2.8vw,40px);margin:14px 0 28px">Common questions about care and
-          admissions</h3>
-
-        <div class="acc-item reveal">
-          <button class="acc-q" type="button">How do I arrange a care-home placement? <span>+</span></button>
-          <div class="acc-a">
-            <p style="padding-bottom:20px">Contact our team to discuss your requirements. We will explain the assessment
-              and admission process and establish whether the home can meet the person’s needs. We coordinate with
-              families, social work teams, and healthcare professionals to ensure a seamless and supportive transition.
-            </p>
-          </div>
-        </div>
-
-        <div class="acc-item reveal delay-1">
-          <button class="acc-q" type="button">Can family members visit? <span>+</span></button>
-          <div class="acc-a">
-            <p style="padding-bottom:20px">Yes. We welcome family involvement and visits, respecting residents’
-              preferences, rights and any applicable safety arrangements. We view families as essential partners in care
-              and encourage staying connected.</p>
-          </div>
-        </div>
-
-        <div class="acc-item reveal delay-2">
-          <button class="acc-q" type="button">Can I arrange a respite stay? <span>+</span></button>
-          <div class="acc-a">
-            <p style="padding-bottom:20px">Please contact the relevant home to discuss availability, suitability and
-              assessment arrangements. Respite stays are available for planned breaks, recovery following illness or
-              hospital discharge, or trial periods before permanent admission.</p>
-          </div>
-        </div>
-
-        <div class="acc-item reveal">
-          <button class="acc-q" type="button">How are care fees determined? <span>+</span></button>
-          <div class="acc-a">
-            <p style="padding-bottom:20px">Fees depend on the type of care, individual requirements and the particular
-              home. Our team can discuss the applicable fees and payment arrangements transparently, including local
-              authority funding, Free Nursing and Personal Care in Scotland, and self-funded options.</p>
-          </div>
-        </div>
-
-        <div class="acc-item reveal delay-1">
-          <button class="acc-q" type="button">Can I visit before making a decision? <span>+</span></button>
-          <div class="acc-a">
-            <p style="padding-bottom:20px">Yes, absolutely. We strongly encourage prospective residents and their
-              families to arrange a visit before deciding on a placement. It provides an opportunity to tour our
-              facilities, experience the atmosphere, meet our staff and have all your questions answered in person.</p>
-          </div>
-        </div>
+  <!-- ARRANGE A VISIT & INFO ASIDE -->
+  <aside class="reveal delay-1">
+    <div
+      style="background:var(--white);padding:32px;border-radius:var(--radius);border:1px solid var(--line);margin-bottom:32px">
+      <span class="eyebrow" style="color:var(--gold)">Personal Visits</span>
+      <h3 class="display" style="color:var(--navy);font-size:24px;margin:10px 0 12px">Arrange a visit to our homes
+      </h3>
+      <p class="muted" style="font-size:14.5px;line-height:1.65;margin-bottom:20px">We warmly encourage
+        prospective residents and their families to visit an appropriate home, meet our team and learn more about
+        the care and support available.</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <a href="deanston.html#visit" class="btn" style="text-align:center">Visit Deanston</a>
+        <a href="centenary.html#visit" class="btn ghost"
+          style="text-align:center;color:var(--navy);border-color:var(--navy)">Visit Centenary House</a>
       </div>
     </div>
+
+    <div style="display:grid;gap:20px">
+      <div>
+        <span class="eyebrow" style="color:var(--gold)">Telephone</span>
+        <p style="font-family:var(--font-display);font-size:22px;color:var(--navy);margin-top:4px">01236 000000
+        </p>
+      </div>
+      <div>
+        <span class="eyebrow" style="color:var(--gold)">Email</span>
+        <p style="font-family:var(--font-display);font-size:20px;color:var(--navy);margin-top:4px"><a
+            href="mailto:divinecarehomesscotland@gmail.com">divinecarehomesscotland@gmail.com</a></p>
+      </div>
+      <div>
+        <span class="eyebrow" style="color:var(--gold)">Registered Head Office</span>
+        <p style="font-size:15px;color:var(--ink);margin-top:4px;line-height:1.5">Divine Care Homes Scotland
+          Ltd.<br />Coatbridge, North Lanarkshire, Scotland</p>
+      </div>
+      <div>
+        <span class="eyebrow" style="color:var(--gold)">Website</span>
+        <p style="font-size:15px;color:var(--ink);margin-top:4px">www.divinecarehomes.co.uk</p>
+      </div>
+    </div>
+  </aside>
+  </div>
+
+  <!-- FAQS ACCORDION -->
+  <div style="margin-top:80px;max-width:860px" id="faqs">
+    <span class="eyebrow reveal">Frequently Asked Questions</span>
+    <h3 class="display reveal delay-1" style="color:var(--navy);font-size:clamp(28px,2.8vw,40px);margin:14px 0 28px">
+      Common questions about care and
+      admissions</h3>
+
+    <div class="acc-item reveal">
+      <button class="acc-q" type="button">How do I arrange a care-home placement? <span>+</span></button>
+      <div class="acc-a">
+        <p style="padding-bottom:20px">Contact our team to discuss your requirements. We will explain the assessment
+          and admission process and establish whether the home can meet the person’s needs. We coordinate with
+          families, social work teams, and healthcare professionals to ensure a seamless and supportive transition.
+        </p>
+      </div>
+    </div>
+
+    <div class="acc-item reveal delay-1">
+      <button class="acc-q" type="button">Can family members visit? <span>+</span></button>
+      <div class="acc-a">
+        <p style="padding-bottom:20px">Yes. We welcome family involvement and visits, respecting residents’
+          preferences, rights and any applicable safety arrangements. We view families as essential partners in care
+          and encourage staying connected.</p>
+      </div>
+    </div>
+
+    <div class="acc-item reveal delay-2">
+      <button class="acc-q" type="button">Can I arrange a respite stay? <span>+</span></button>
+      <div class="acc-a">
+        <p style="padding-bottom:20px">Please contact the relevant home to discuss availability, suitability and
+          assessment arrangements. Respite stays are available for planned breaks, recovery following illness or
+          hospital discharge, or trial periods before permanent admission.</p>
+      </div>
+    </div>
+
+    <div class="acc-item reveal">
+      <button class="acc-q" type="button">How are care fees determined? <span>+</span></button>
+      <div class="acc-a">
+        <p style="padding-bottom:20px">Fees depend on the type of care, individual requirements and the particular
+          home. Our team can discuss the applicable fees and payment arrangements transparently, including local
+          authority funding, Free Nursing and Personal Care in Scotland, and self-funded options.</p>
+      </div>
+    </div>
+
+    <div class="acc-item reveal delay-1">
+      <button class="acc-q" type="button">Can I visit before making a decision? <span>+</span></button>
+      <div class="acc-a">
+        <p style="padding-bottom:20px">Yes, absolutely. We strongly encourage prospective residents and their
+          families to arrange a visit before deciding on a placement. It provides an opportunity to tour our
+          facilities, experience the atmosphere, meet our staff and have all your questions answered in person.</p>
+      </div>
+    </div>
+  </div>
+  </div>
   </section>
 
   <div id="site-footer"></div>
